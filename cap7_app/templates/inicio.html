@@ -12,40 +12,44 @@
         <h2>Notas</h2>
 
         <form method="GET" action="{% url 'inicio' %}">
-           <label for="id_prioridad">Prioridad:</label>
-           <select id="id_prioridad" name="get_prioridad">
-                   <option value="alta">Alta</option>
-                   <option value="normal">Normal</option>
-                   <option value="baja">Baja</option>
-           </select>
-           <input type="submit" value="filtrar">
-        </form>
+            <label for="id_prioridad">Prioridad:</label>
+            <select id="id_prioridad" name="get_prioridad">
+                <option value="alta">Alta</option>
+                <option value="normal">Normal</option>
+                <option value="baja">Baja</option>
+            </select>
+            <input type="submit" value="filtrar">
+        </form><br>
 
         {% for nota in notas %}
         <fieldset>
-            <legend>{{ nota.prioridad }} - {{ nota.titulo }}</legend>
-            {{ nota.contenido }} <br>
-        </fieldset>
+            <legend><span style="text-transform: uppercase;">{{ nota.prioridad }}</span> - <strong><u>{{ nota.titulo }}</u></strong></legend>
+            <span>{{ nota.contenido }} </span><br>
+        </fieldset><br>
         {% endfor %}
 
-        <hr>
+        <hr><br>
 
-        <form action="/add/" method="POST">
+        <form action="/insert/" method="POST">
             <fieldset>
-                <legend>Añadir nota</legend>
+                <legend><strong>AÑADIR NOTA</strong></legend><br>
 
                 {% csrf_token %}
 
                 <label for="prioridad">Prioridad:</label>
-                <select id="prioridad" name="prioridad">
+                <select name="prioridad" id="prioridad">
                     <option value="alta">Alta</option>
                     <option value="normal">Normal</option>
                     <option value="baja">Baja</option>
-                </select><br>
+                </select><br><br>
 
-                <input type="text" name="subject" placeholder="titulo" size="27"><br>
+                <label>
+                    <input type="text" name="subject" placeholder="Título">
+                </label><br>
 
-                <textarea name="msg" id="id_new_item" cols="40" rows="5" placeholder="Escribe tu nota aquí"></textarea><br>
+                <label for="id_new_item"></label>
+                <textarea name="msg" id="id_new_item" cols="32" rows="10"
+                          placeholder="Introduce tu nota aquí..."></textarea><br><br>
 
                 <input type="submit">
             </fieldset>

@@ -20,6 +20,9 @@ from cap7_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',     views.home,     name = 'inicio'),
-    path('add/', views.insertar, name = 'insert'),
+    path('',        views.home,     name = 'inicio'),
+    path('insert/', views.insertar, name = 'insert'),
+    path('filter/', views.filtrar,  name = 'filter'),
+    path('select/', views.select,   name = 'select'),
+    path('delete/', views.delete,   name = 'delete'),
 ]

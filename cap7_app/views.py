@@ -1,16 +1,17 @@
 from django.shortcuts import render, HttpResponse, redirect
 import psycopg2.extras
 
+
 # Create your views here.
 
 
 def home(request):
-    conn = psycopg2.connect(dbname   = "capitulo_6_db",
-                            user     = "capitulo_6_user",
-                            password = "patata")
+    conn = psycopg2.connect(dbname="capitulo_6_db",
+                            user="capitulo_6_user",
+                            password="patata")
 
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cursor.execute('select * from nota;')
+    cursor.execute('SELECT * FROM nota;')
 
     result = cursor.fetchall()
 
@@ -23,12 +24,12 @@ def home(request):
 
 
 def insertar(request):
-    conn = psycopg2.connect(dbname   = "capitulo_6_db",
-                            user     = "capitulo_6_user",
-                            password = "patata")
+    conn = psycopg2.connect(dbname="capitulo_6_db",
+                            user="capitulo_6_user",
+                            password="patata")
 
     prioridad = request.POST['prioridad']
-    titulo    = request.POST['subject']
+    titulo = request.POST['subject']
     contenido = request.POST['msg']
 
     cursor = conn.cursor()
@@ -43,20 +44,34 @@ def insertar(request):
 
 
 def filtrar(request):
+    conn = psycopg2.connect(dbname="capitulo_6_db",
+                            user="capitulo_6_user",
+                            password="patata")
 
-    conn = psycopg2.connect(dbname   = "capitulo_6_db",
-                            user     = "capitulo_6_user",
-                            password = "patata")
+    prioridad = request.GET.get('get_prioridad', default=None)
+
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor.execute("SELECT * FROM Nota;")
+
+    result = cursor.fetchall()
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    params = {'notas': result}
+
+    return render(request, 'inicio.html', params)
 
 
 def select(request):
-
-    conn = psycopg2.connect(dbname   = "capitulo_6_db",
-                            user     = "capitulo_6_user",
-                            password = "patata")
+    conn = psycopg2.connect(dbname="capitulo_6_db",
+                            user="capitulo_6_user",
+                            password="patata")
 
     cursor = conn.cursor()
-    cursor.execute("select * from nota")
+    cursor.execute("SELECT * FROM nota")
 
     html = '<html>'
 
@@ -81,12 +96,12 @@ def select(request):
 
 
 def delete(request):
-    conn = psycopg2.connect(dbname   = "capitulo_6_db",
-                            user     = "capitulo_6_user",
-                            password = "patata")
+    conn = psycopg2.connect(dbname="capitulo_6_db",
+                            user="capitulo_6_user",
+                            password="patata")
 
     cursor = conn.cursor()
-    cursor.execute("delete from nota")
+    cursor.execute("DELETE FROM nota")
 
     conn.commit()
 
@@ -94,5 +109,3 @@ def delete(request):
     conn.close()
 
     return HttpResponse('Borrado')
-
-
