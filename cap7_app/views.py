@@ -50,17 +50,41 @@ def filtrar(request):
 
     prioridad = request.GET.get('get_prioridad', default=None)
 
-    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cursor.execute("SELECT * FROM Nota;")
+    if prioridad == 'alta':
 
-    result = cursor.fetchall()
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cursor.execute("SELECT * FROM nota WHERE prioridad = 'alta';")
 
-    conn.commit()
+        result = cursor.fetchall()
 
-    cursor.close()
-    conn.close()
+        cursor.close()
+        conn.close()
 
-    params = {'notas': result}
+        params = {'notas': result}
+
+    elif prioridad == 'normal':
+
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cursor.execute("SELECT * FROM nota WHERE prioridad = 'normal';")
+
+        result = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        params = {'notas': result}
+
+    else:
+
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cursor.execute("SELECT * FROM nota WHERE prioridad = 'baja';")
+
+        result = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        params = {'notas': result}
 
     return render(request, 'inicio.html', params)
 
