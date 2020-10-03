@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Añadir Nota</title>
+    </head>
+
+    <body>
+        <h2>Notas</h2>
+
+        <form method="GET" action="{% url 'inicio' %}">
+           <label for="id_prioridad">Prioridad:</label>
+           <select id="id_prioridad" name="get_prioridad">
+                   <option value="alta">Alta</option>
+                   <option value="normal">Normal</option>
+                   <option value="baja">Baja</option>
+           </select>
+           <input type="submit" value="filtrar">
+        </form>
+
+        {% for nota in notas %}
+        <fieldset>
+            <legend>{{ nota.prioridad }} - {{ nota.titulo }}</legend>
+            {{ nota.contenido }} <br>
+        </fieldset>
+        {% endfor %}
+
+        <hr>
+
+        <form action="/add/" method="POST">
+            <fieldset>
+                <legend>Añadir nota</legend>
+
+                {% csrf_token %}
+
+                <label for="prioridad">Prioridad:</label>
+                <select id="prioridad" name="prioridad">
+                    <option value="alta">Alta</option>
+                    <option value="normal">Normal</option>
+                    <option value="baja">Baja</option>
+                </select><br>
+
+                <input type="text" name="subject" placeholder="titulo" size="27"><br>
+
+                <textarea name="msg" id="id_new_item" cols="40" rows="5" placeholder="Escribe tu nota aquí"></textarea><br>
+
+                <input type="submit">
+            </fieldset>
+        </form>
+
+    </body>
+
+</html>
